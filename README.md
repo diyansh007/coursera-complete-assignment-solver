@@ -23,12 +23,12 @@ This extension intelligently analyzes and interacts with Coursera, letting you a
 6. Select the folder where you saved this repo.
 7. That’s it — the extension is live! 🎉
 
-*Note: Version 1.1 includes a brand-new UI, faster execution, and robust API provider selection.*
+*Note: Version 1.1 includes a brand-new UI, faster execution, and robust API provider selection (preferably Gemini).*
 
 ### ⚡ How to Use
 
 1. Click the **Auto Solver** icon in your Chrome toolbar.
-2. Click the **AI Provider** dropdown to select your preferred model (e.g., Gemini 2.5 Flash), and paste your API Key.
+2. Click the **AI Provider** dropdown to select your preferred model (preferably Gemini for the best results), and paste your API Key.
 3. Visit any supported course module on Coursera:
    * A Quiz or Assessment
    * A Video or Reading item
