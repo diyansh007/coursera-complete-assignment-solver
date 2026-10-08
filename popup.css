@@ -455,7 +455,7 @@ input:focus, select:focus {
 }
 
 /* Footer Update Badge */
-.footer { display: flex; justify-content: center; padding: 4px 0; }
+.footer { display: flex; justify-content: center; gap: 8px; padding: 4px 0; }
 
 .update-badge {
   display: inline-flex;
