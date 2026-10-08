@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+  <title>Coursera Auto Solver</title>
+</head>
+<body>
+  <!-- Fake Mac Window Controls -->
+  <div class="mac-window-controls">
+    <div class="traffic-lights">
+      <div class="traffic-light close"></div>
+      <div class="traffic-light minimize"></div>
+      <div class="traffic-light maximize"></div>
+    </div>
+    <span class="version">v1.1</span>
+  </div>
+
+  <header class="header">
+    <div class="app-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2z" />
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1 class="title">Auto Solver</h1>
+      <p class="subtitle">Speedrun your courses efficiently.</p>
+    </div>
+  </header>
+
+  <section class="config-shell glass" aria-labelledby="configHeading">
+    <button id="configToggle" class="config-summary" type="button" aria-expanded="false" aria-controls="configDisclosure">
+      <span id="providerSignal" class="provider-signal" aria-hidden="true"></span>
+      <span class="summary-copy">
+        <span id="configHeading" class="summary-label">AI provider</span>
+        <span id="activeConfigLabel" class="summary-value">Gemini · Gemini 2.5 Flash</span>
+      </span>
+      <span id="configBadge" class="status-badge">Ready</span>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    <div id="configDisclosure" class="config-disclosure">
+      <div class="config-disclosure-inner">
+        <div class="config-body">
+          <label class="field" for="providerSelect">
+            <span class="field-label">Provider</span>
+            <select id="providerSelect"></select>
+          </label>
+
+          <label class="field" for="modelSelect" hidden>
+            <span class="field-label">Model</span>
+            <select id="modelSelect"></select>
+            <span class="field-hint">Balanced is recommended for most quizzes.</span>
+          </label>
+
+          <label id="customModelField" class="field" for="customModelInput" hidden>
+            <span class="field-label">Custom model ID</span>
+            <input id="customModelInput" type="text" autocomplete="off" spellcheck="false" placeholder="provider/model-name">
+          </label>
+
+          <label class="field" for="apiKeyInput">
+            <span class="field-label">API key</span>
+            <span class="key-row">
+              <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" aria-describedby="keyPrivacyNote">
+              <button id="toggleVisibilityBtn" class="icon-button" type="button" aria-label="Show API key" title="Show API key">
+                <svg id="eyeOpenIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2.1 12s3.6-7 9.9-7 9.9 7 9.9 7-3.6 7-9.9 7-9.9-7-9.9-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </span>
+          </label>
+
+          <div class="config-actions">
+            <button id="saveBtn" class="btn btn-primary" type="button">Save &amp; verify</button>
+            <button id="clearKeyBtn" class="btn btn-ghost" type="button">Clear</button>
+          </div>
+
+          <div class="config-meta">
+            <p id="configStatus" class="config-status" role="status" aria-live="polite"></p>
+            <a id="getKeyLink" class="link" href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer">Get API key →</a>
+          </div>
+
+          <p id="keyPrivacyNote" class="privacy-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            Stored only in this Chrome profile. API usage is billed by your provider.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section glass">
+    <div class="section-header-row">
+      <div class="section-icon blue-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h2 class="section-title">AI Study Actions</h2>
+        <p class="section-desc">Solve a quiz or draft the current dialogue response.</p>
+      </div>
+    </div>
+    <button id="explainBtn" class="btn btn-primary btn-icon-right" type="button">
+      <div class="btn-left">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        Solve Current Quiz
+      </div>
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <button id="dialogueBtn" class="btn btn-secondary btn-icon-right" type="button">
+      <div class="btn-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+        Fill Dialogue Answer
+      </div>
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <div class="button-row">
+      <button id="showQuestionsBtn" class="btn btn-secondary" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy Questions
+      </button>
+      <button id="getGradedLinksBtn" class="btn btn-secondary" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Course Requirements
+      </button>
+    </div>
+    <div id="result" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="section glass">
+    <div class="section-header-row">
+      <div class="section-icon red-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+        </svg>
+      </div>
+      <div>
+        <h2 class="section-title">Media Automation</h2>
+        <p class="section-desc">Instantly complete videos and readings.</p>
+      </div>
+    </div>
+    <button id="completeVideosBtn" class="btn btn-secondary btn-icon-right" type="button">
+      <div class="btn-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        Complete Materials
+      </div>
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </section>
+
+  <footer class="footer">
+    <a href="#" class="update-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+      Check for updates
+    </a>
+  </footer>
+
+  <script src="ai-providers.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
